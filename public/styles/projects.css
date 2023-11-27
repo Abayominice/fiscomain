@@ -1,0 +1,432 @@
+section{
+    padding: 20px 40px;
+}
+
+input, textarea{
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 1px;
+    padding:10px;
+    margin-top:20px;
+    width: 100%;
+}
+
+.pry-btn{
+    text-transform: uppercase;
+    clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%);
+    padding: 10px;
+    background-color: red;
+    color: white;
+    position:relative;
+    transition: width 1s;
+    
+    
+}
+
+.pry-btn::before{
+    content: url("../images/right-arrow-svgrepo-com.svg");
+    display:inline-block;
+    transition: width 0.4s;
+    overflow: hidden;
+    width: 25px;
+    height: 20px;
+    padding-top: 5px;
+    margin-left: 2px;
+    
+}
+
+.pry-btn::after{
+    content: url("../images/right-arrow-svgrepo-com\ -\ color.svg");
+    width:0;
+    height: 0;
+    overflow: hidden;
+    display:inline-block;
+    transition: width 0.4s;
+    padding-top: 5px;
+    
+}
+
+.pry-btn:hover {
+    color:rgb(14, 2, 65);
+
+    &:after{
+    width:25px; 
+    height: 20px;  
+    }
+    &:before{
+        width:0;
+        height: 0;
+    
+    }
+}
+
+.slide-img{
+    position: absolute;
+    perspective: 500px;
+    animation: img-slide 9s infinite linear ;
+}
+.slide-img:nth-child(2){
+    animation-delay: 3s;
+}
+.slide-img:nth-child(3){
+    animation-delay: 6s;
+}
+
+
+@keyframes img-slide {
+    5%{transform: translateZ(20px); }    
+    15%{ transform: translateZ(20px); transform: translateX(-20px);}
+    22%{ transform: translateZ(20px); transform: translateX(-20px)}
+    30%{transform: translateX(0); }     
+}
+
+.sect-header{
+    font-size: 24px;
+    font-weight:700;
+    position: relative;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.sect-header::after{
+    content:"";
+    position:absolute;
+    bottom:-5px;
+    width: 100%;   
+    border: 1.5px solid rgb(210, 209, 209);
+
+}
+/* .sect-header::before{
+    content:"PROJECTS";
+    font-size: 48px;
+    font-weight: 700;
+    color:rgba(210, 210, 210, 0.2);
+    position: absolute;
+    left: 0;
+    top: -20px;
+    
+} */
+
+.sect-header-background{
+    position: absolute;
+    top: -60px;
+    left: 0;
+    font-size: 100px;
+    color:rgba(210, 210, 210, 0.2);
+
+}
+
+.in-touch::before{
+    content:"IN TOUCH" !important;   
+}
+
+.project-details{
+    background-color: black;
+}
+
+.project-details *{
+    color: white;
+}
+
+.project-details img{
+    filter:brightness(60%);
+    transition: all 1s;
+}
+
+.project-details img:hover{
+    filter:brightness(100%);
+    transform:scale(1.02);
+}
+
+.project-details-title{
+    position:absolute;
+    bottom:10px;
+    left:10px;
+    border-right: 2px solid blue;
+    border-left: 2px solid blue;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(1px);
+    padding:30px;
+    font-size: 20px;
+    opacity: 1;
+    transition: all 1s;
+    
+    
+}
+
+.project-details-link{
+    position:absolute;
+    bottom:10px;
+    left:10px;
+    margin-right: 20px;
+    font-size: 20px;
+    border-left: 2px solid blue;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(1px);
+    transform: translateY(50px); 
+    opacity: 0;
+    transition: all 1s;
+
+}
+
+.project-details-link:hover *{
+    color: red !important;
+}
+
+.project-details-link>div{
+    padding:30px;
+}
+
+
+
+.project-details-title *, .project-details-link *{
+    color: black !important;
+}
+
+.bg-custom-projects1::before{
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    clip-path: polygon(0 0, 0% 100%, 100% 100%);
+    background-color: rgba(0, 0, 0, 0.02);
+    transition: all linear 0.5s;
+    z-index: -1;
+}
+
+.overlay{
+    background-image:linear-gradient(90deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../images/projects/download\ \(1\).jpg");
+    background-size: cover;
+}
+
+.overlay:hover{
+    background-image:url("../images/projects/download\ \(1\).jpg");
+    background-size: cover;
+    transform: scale(1.02);
+}
+
+.single-project h1{
+    font-weight: 700;
+    font-size:22px;
+}
+
+.animate-fadeupshow{
+    /* animation: fadeupshow 1s linear forwards; */
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.animate-fadeup-delay{
+    animation: fadeup 1s linear ease-in 0.5s;
+}
+
+.animate-fadeuphide{
+    /* animation: fadeuphide 1s linear forwards; */
+    transform: translateY(-200px);
+    opacity: 0;
+}
+
+@keyframes fadeuphide {
+    100%{transform:translateY(-20px); opacity: 0;}
+}
+
+@keyframes fadeupshow {
+    0%{opacity: 0;}
+    100%{transform:translateY(0); opacity: 1;}
+}
+#subform #spcon{
+    grid-column: 2/3;
+    display: flex;
+    justify-content: space-around;
+    width: 300px;
+    padding: 12px 15px;
+    background: red;
+    transform: skew(-20deg);
+}
+#spcon a{
+    color:white;
+}
+#spcon a:hover{
+    color: rgb(14, 2, 65);
+    
+}
+#spcon #con{
+    transform: skew(20deg);
+}
+#spcon::before{
+    content: url("../images/right-arrow-svgrepo-com.svg");
+    display:inline-block;
+    transition: width 0.4s;
+    overflow: hidden;
+    width: 25px;
+    height: 20px;
+    padding-top: -2px;
+    margin-left: 2px;
+    
+}
+
+#spcon::after{
+    content: url("../images/right-arrow-svgrepo-com\ -\ color.svg");
+    width:0;
+    height: 0;
+    overflow: hidden;
+    display:inline-block;
+    transition: width 0.4s;
+    padding-top: -4px;
+    
+}
+
+#spcon:hover {
+    color:rgb(14, 2, 65);
+    padding-top: -4px;
+    &:after{
+    width:25px; 
+    height: 20px;  
+    }
+    &:before{
+        width:0;
+        height: 0;
+        
+    }
+}
+
+@media only screen and (max-width:700px) { 
+    .sect-header-background{
+        font-size: 4em;
+        top: -35px;
+    }
+
+    .sect-header{
+        font-size: 18px;
+    }
+    section{
+        margin-top: -450px;
+    }
+    .simg img{
+        height: 500px;
+        
+    }
+    #subform #spcon{
+        grid-column: 2/3;
+        display: flex;
+        justify-content: space-around;
+        width: 200px;
+        padding: 12px 15px;
+        background: red;
+        transform: skew(-20deg);
+    }
+    #subform #spcon a{
+        color:white;
+        font-size: 0.7rem;
+    }
+    #spcon a:hover{
+        color: rgb(14, 2, 65);
+        
+    }
+    #spcon #con{
+        transform: skew(20deg);
+    }
+    #spcon::before{
+        content: url("../images/right-arrow-svgrepo-com.svg");
+        display:inline-block;
+        transition: width 0.4s;
+        overflow: hidden;
+        width: 25px;
+        height: 20px;
+        padding-top: -2px;
+        margin-left: 2px;
+        
+    }
+    
+    #spcon::after{
+        content: url("../images/right-arrow-svgrepo-com\ -\ color.svg");
+        width:0;
+        height: 0;
+        overflow: hidden;
+        display:inline-block;
+        transition: width 0.4s;
+        padding-top: -4px;
+        
+    }
+    
+    #spcon:hover {
+        color:rgb(14, 2, 65);
+        padding-top: -4px;
+        &:after{
+        width:25px; 
+        height: 20px;  
+        }
+        &:before{
+            width:0;
+            height: 0;
+            
+        }
+    }
+}
+
+@media (min-width:700px) and (max-width: 1200px) {
+    section{
+        margin-top: -600px;
+    }
+    .simg img{
+        height: 500px;
+        margin-top: 400px;
+    }
+    #subform #spcon{
+        grid-column: 2/3;
+        display: flex;
+        justify-content: space-around;
+        width: 240px;
+        padding: 12px 15px;
+        background: red;
+        transform: skew(-20deg);
+    }
+    #spcon a{
+        color:white;
+    }
+    #spcon a:hover{
+        color: rgb(14, 2, 65);
+        
+    }
+    #spcon #con{
+        transform: skew(20deg);
+    }
+    #spcon::before{
+        content: url("../images/right-arrow-svgrepo-com.svg");
+        display:inline-block;
+        transition: width 0.4s;
+        overflow: hidden;
+        width: 25px;
+        height: 20px;
+        padding-top: -2px;
+        margin-left: 2px;
+        
+    }
+    
+    #spcon::after{
+        content: url("../images/right-arrow-svgrepo-com\ -\ color.svg");
+        width:0;
+        height: 0;
+        overflow: hidden;
+        display:inline-block;
+        transition: width 0.4s;
+        padding-top: -4px;
+        
+    }
+    
+    #spcon:hover {
+        color:rgb(14, 2, 65);
+        padding-top: -4px;
+        &:after{
+        width:25px; 
+        height: 20px;  
+        }
+        &:before{
+            width:0;
+            height: 0;
+            
+        }
+    }
+}
