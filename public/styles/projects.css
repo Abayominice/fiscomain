@@ -296,6 +296,7 @@ input, textarea{
     .sect-header-background{
         font-size: 4em;
         top: -35px;
+        display: none;
     }
 
     .sect-header{
@@ -312,14 +313,14 @@ input, textarea{
         grid-column: 2/3;
         display: flex;
         justify-content: space-around;
-        width: 200px;
+        width: 140px;
         padding: 12px 15px;
         background: red;
         transform: skew(-20deg);
     }
     #subform #spcon a{
         color:white;
-        font-size: 0.7rem;
+        font-size: 0.5rem;
     }
     #spcon a:hover{
         color: rgb(14, 2, 65);

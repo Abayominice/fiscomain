@@ -1,4 +1,7 @@
 @media (max-width: 700px) {
+    .single-project{
+        margin-top: 55px;
+    }
 }
 @media (min-width:700px) and (max-width: 1200px) {
 }
