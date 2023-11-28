@@ -23,7 +23,7 @@ app.get("/projects", (req, res) => {
 	res.sendFile(__dirname + "/public/projects.html");
 });
 app.get("/construction", (req, res) => {
-	res.sendFile(__dirname + "./public/projects/construction.html");
+	res.sendFile(__dirname + "/public/projects/construction.html");
 });
 app.get("/engineering", (req, res) => {
 	res.sendFile(__dirname + "/public/projects/engineering.html");
