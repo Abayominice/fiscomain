@@ -20,7 +20,10 @@ input, textarea{
     
     
 }
-
+.simg img{
+    height: 500px;
+    margin-top: 100px;
+}
 .pry-btn::before{
     content: url("../images/right-arrow-svgrepo-com.svg");
     display:inline-block;
