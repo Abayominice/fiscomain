@@ -1,6 +1,11 @@
 const express = require('express');
 const cors = require("cors");
 const app = express();
+const multer = require('multer'); // For handling file uploads
+const nodemailer = require('nodemailer'); // For sending emails
+const pdfParse = require('pdf-parse');
+const mammoth = require('mammoth');
+
 const port = 3000;
 app.use(express.static("public"));
 app.use(express.json());
@@ -34,6 +39,110 @@ app.get("/procurement", (req, res) => {
 app.get("/projectmgt", (req, res) => {
 	res.sendFile(__dirname + "/public/projects/projectmgt.html");
 });
-app.listen(port, () => {
-	  console.log(`Example app listening on port ${port}`)
+
+
+
+
+// Middleware to handle form data
+const storage = multer.memoryStorage(); // Store files in memory as buffers
+const upload = multer({ storage: storage, limits: { fileSize: 5 * 1024 * 1024 }, }); // Use the defined storage
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const transporter = nodemailer.createTransport({
+    host: 'mail.fiscocompanies.com',
+    auth: {
+        user: 'quotation@fiscocompanies.com',
+        pass: 'Abayomiusman1.',
+    },
+    port: 465,
+    secure: true,
+    debug: true,
 });
+
+// Your endpoint to handle the form
+app.post('/submit-form', upload.single('file'), async (req, res) => {
+    try {
+        // Extract data from the form
+        const { fullname, phone, email, service, message } = req.body;
+        const file = req.file;
+
+        // Read content from the uploaded file
+        let fileContent = '';
+
+        if (file && (file.mimetype === 'application/pdf' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
+            // Handle PDF and Word
+            if (file.mimetype === 'application/pdf') {
+                const pdfData = await pdfParse(file.buffer);
+                fileContent = pdfData.text;
+            } else if (file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                const wordData = await mammoth.extractRawText({ arrayBuffer: file.buffer });
+                fileContent = wordData.value;
+            }
+        } else {
+            // Handle other file types if needed
+            fileContent = 'Unsupported file type';
+        }
+
+        // Configure Nodemailer for sending emails
+     
+        // Configure email content
+        const mailOptions = {
+            from: 'quotation@fiscocompanies.com',
+            to: 'quotation@fiscocompanies.com',
+            subject: 'Form Submission',
+            html: `
+                <p><strong>Name:</strong> ${fullname}</p>
+                <p><strong>Phone Number:</strong> ${phone}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Service Description:</strong> ${service}</p>
+                <p><strong>File Content:</strong> ${fileContent}</p>
+                <p><strong>Message:</strong> ${message}</p>
+            `,
+        };
+
+        // Send email
+        await transporter.sendMail(mailOptions);
+
+        // Respond to the client
+        res.status(200).json({ message: 'Form submitted successfully!' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.post('/submit-contact-form', async (req, res) => {
+    try {
+        // Extract data from the form
+        const { name, email, subject, message } = req.body;
+
+        // Configure email content
+        const mailOptions = {
+            from: 'quotation@fiscocompanies.com',
+            to: 'quotation@fiscocompanies.com',
+            subject: `New Contact Form Submission - ${subject}`,
+            html: `
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Subject:</strong> ${subject}</p>
+                <p><strong>Message:</strong> ${message}</p>
+            `,
+        };
+
+        // Send email
+        await transporter.sendMail(mailOptions);
+
+        // Respond to the client
+        res.status(200).json({ message: 'Form submitted successfully!' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.listen(port, () => {
+	console.log(`Example app listening on port ${port}`)
+});
+

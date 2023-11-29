@@ -395,9 +395,9 @@
             </div>
 
             <div id="subform">
-                <form class="contact-form" onsubmit="return validateFileInput()" action="your-action-here" method="post" enctype="multipart/form-data">
+                <form class="contact-form" enctype="multipart/form-data">
                     <div class="ol"><div class="email">Name</div> &nbsp;<div id="rsik">*</div></div>
-                    <div class="sd ssd"><input required class="enquiry-name" placeholder="Enter your full name" type="text" name="fulname" id="email" autocomplete="name"></div>
+                    <div class="sd ssd"><input required class="enquiry-name" placeholder="Enter your full name" type="text" name="fullname" id="email" autocomplete="name"></div>
                     <div class="ol"><div  class="email" >Phone Number</div> &nbsp;<div id="rsik">*</div></div>
                     <div class="sd ssd"><input required class="enquiry-email" placeholder="+2348121318795" type="tel" autocomplete="tel-country-code" name="phone" id="email"></div>
                     <div class="ol"><div  class="email" >Email</div> &nbsp;<div id="rsik">*</div></div>
@@ -412,13 +412,15 @@
                     <div class="ol"><div  class="email">Message</div> &nbsp;<div id="rsik">*</div></div>
                     <div class="sd ssd"><textarea required minlength="10" placeholder="along with all that, I need..." class="enquiry-message" name="message" id="email"></textarea></div>
                     </br>
+                  
+                    
                     <div id="spcon">
                         
                         <div id="con " class="menu all">
-                            <button type="submit" class="contact-button"><a><h3>GET A FREE QUOTE</h3></a></button>
+                            <button type="submit" class="contact-button quote-button"><a><h3>GET A FREE QUOTE</h3></a></button>
                         </div>
                     </div>
-                </form>
+                    </form>
             </div>
         </div>
     </div> 

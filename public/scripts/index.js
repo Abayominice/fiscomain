@@ -116,3 +116,37 @@ function validateFileInput() {
 
   return true; // Allow form submission
 }
+
+const submitBtn = document.querySelector('.quote-button');
+const contactForm = document.querySelector('.contact-form');
+
+contactForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    // Change button text to 'Uploading'
+    submitBtn.textContent = 'Uploading...';
+    submitBtn.disabled = true;
+
+    // Create a FormData object to capture form data
+    const formData = new FormData(contactForm);
+
+    // Make a fetch request to your endpoint
+    fetch('/submit-form', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+      return response.json()})
+    .then(data => {
+
+        submitBtn.textContent = 'Success!';
+        submitBtn.disabled = true;
+    })
+    .catch(error => {
+
+        submitBtn.textContent = 'Error, kindly try again, later.';
+    });
+});
