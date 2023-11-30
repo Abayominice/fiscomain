@@ -141,6 +141,56 @@ app.post('/submit-contact-form', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+const MAILCHIMP_API_KEY = "d3cda6fc92e51b731212add030844019-us21";
+const MAILCHIMP_LIST_ID = "45f3c6b592";
+  
+app.post("/subscribe", async (req, res) => {
+  const email = req.body.email;
+
+  if (!validateEmail(email)) {
+    return res.status(401).json({ message: "Email not set" });
+  }
+
+  const data = {
+    email_address: email,
+    status: "subscribed",
+    tags: ["Fans"],
+  };
+
+  try {
+    const response = await fetch(
+      `https://us21.api.mailchimp.com/3.0/lists/${MAILCHIMP_LIST_ID}/members`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${Buffer.from(
+            `apikey:${MAILCHIMP_API_KEY}`
+          ).toString("base64")}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      res.json({ success: true, message: "Subscription successful!" });
+    } else {
+      res.json({
+        success: false,
+        message: responseData.title || "Subscription failed.",
+      });
+    }
+  } catch (error) {
+    console.error("Error subscribing:", error);
+    res.status(401).json({ success: false, message: "An error occurred." });
+  }
+});
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`)

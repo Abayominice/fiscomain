@@ -150,3 +150,45 @@ contactForm.addEventListener('submit', function (event) {
         submitBtn.textContent = 'Error, kindly try again, later.';
     });
 });
+
+const emailSubBtn = document.querySelector('.emailSubBtn');
+const flashShow = document.querySelector('.flash-show');
+
+emailSubBtn.addEventListener('click', async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    const email = document.querySelector('.newsletter-email').value;
+
+    const data = {
+        email,
+    };
+ if(!email  || email == null || email?.length === 0){
+  return
+}
+    try {
+        flashShow.textContent = 'Loading...';
+
+        const response = await fetch('/subscribe/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          flashShow.textContent = 'Error. Try again later.';
+          flashShow.style.color = 'red';
+          flashShow.style.display = 'block';
+          
+        } else{
+
+        flashShow.textContent = 'Successful';
+        flashShow.style.display = 'block';
+      }
+    } catch (err) {
+        flashShow.textContent = 'Error. Try again later.';
+        flashShow.style.color = 'red';
+        flashShow.style.display = 'block';
+    }
+}, true);
