@@ -45,7 +45,7 @@ app.get("/projectmgt", (req, res) => {
 
 // Middleware to handle form data
 const storage = multer.memoryStorage(); // Store files in memory as buffers
-const upload = multer({ storage: storage, limits: { fileSize: 5 * 1024 * 1024 }, }); // Use the defined storage
+const upload = multer({ storage: storage, limits: { fileSize: 7 * 1024 * 1024 }, }); // Use the defined storage
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -62,7 +62,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Your endpoint to handle the form
-app.post('/submit-form', upload.array('file'), async (req, res) => {
+app.post('/submit-form', upload.array('file', 2), async (req, res) => {
     try {
         // Extract data from the form
         const { fullname, phone, email, service, message } = req.body;
