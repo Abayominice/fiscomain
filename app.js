@@ -45,7 +45,7 @@ app.get("/projectmgt", (req, res) => {
 
 // Middleware to handle form data
 const storage = multer.memoryStorage(); // Store files in memory as buffers
-const upload = multer({ storage: storage, limits: { fileSize: 7 * 1024 * 1024 }, }); // Use the defined storage
+const upload = multer({ storage: storage, limits: { fileSize: 50 * 1024 * 1024 }, }); // Use the defined storage
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
