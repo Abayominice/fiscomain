@@ -38,7 +38,7 @@ const submitBtn = document.querySelector('.pry-btn');
 const form = document.querySelector('.contact-form');
 
 form.addEventListener('submit', function (event) {
-  console.log("Ddddd");
+
     event.preventDefault(); // Prevent the default form submission behavior
 
     // Change button text to 'Submitting'
@@ -46,6 +46,7 @@ form.addEventListener('submit', function (event) {
     submitBtn.disabled = true;
 
     // Create a FormData object to capture form data
+
     const formData = new FormData(form);
 
     // Make a fetch request to your endpoint

@@ -62,29 +62,38 @@ const transporter = nodemailer.createTransport({
 });
 
 // Your endpoint to handle the form
-app.post('/submit-form', upload.single('file'), async (req, res) => {
+app.post('/submit-form', upload.array('file'), async (req, res) => {
     try {
         // Extract data from the form
         const { fullname, phone, email, service, message } = req.body;
-        const file = req.file;
+        const filesArr = req.files;
 
         // Read content from the uploaded file
         let fileContent = '';
+        let i = 1
+for (const file of filesArr) {
+  
 
         if (file && (file.mimetype === 'application/pdf' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
             // Handle PDF and Word
             if (file.mimetype === 'application/pdf') {
                 const pdfData = await pdfParse(file.buffer);
-                fileContent = pdfData.text;
+            
+                fileContent += `<strong><p><h1>FILE ${i}</strong></p></h1>` + pdfData.text + ":";
             } else if (file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                const wordData = await mammoth.extractRawText({ arrayBuffer: file.buffer });
-                fileContent = wordData.value;
+             
+                const wordData = await mammoth.convertToHtml ({ buffer: file.buffer });
+       
+                fileContent += `<strong><p><h1>FILE ${i}</strong></p></h1>` +  wordData.value + ":"; 
+
             }
         } else {
             // Handle other file types if needed
-            fileContent = 'Unsupported file type';
+            fileContent += 'Unsupported file type';
         }
-
+        i += 1
+}
+console.log(fileContent);
         // Configure Nodemailer for sending emails
      
         // Configure email content
@@ -113,7 +122,7 @@ app.post('/submit-form', upload.single('file'), async (req, res) => {
     }
 });
 
-app.post('/submit-contact-form', async (req, res) => {
+app.post('/submit-contact-form', upload.any(),async (req, res) => {
     try {
         // Extract data from the form
         const { name, email, subject, message } = req.body;
