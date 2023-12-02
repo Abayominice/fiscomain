@@ -526,7 +526,7 @@ section{
     z-index: 1;
 }
 
-.imght {
+.imght { 
     position: absolute;
     bottom: 0;
     left: 0;
@@ -3308,6 +3308,7 @@ section{
     right: 0;
     color: #fff; /* Set the text color */
     text-align: center;
+    top: 50px;
     margin-bottom: 100px;
     opacity: 0;
     z-index: 2;
@@ -3315,7 +3316,7 @@ section{
 }
 .imght h4{
     width:70%;
-    margin-left: 110px;
+    margin-left: 70px;
 }
 .img1:hover .imght {
     opacity: 1;
