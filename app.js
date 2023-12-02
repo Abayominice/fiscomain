@@ -106,8 +106,9 @@ console.log(fileContent);
                 <p><strong>Phone Number:</strong> ${phone}</p>
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Service Description:</strong> ${service}</p>
+                 <p><strong>Message:</strong> ${message}</p>
                 <p><strong>File Content:</strong> ${fileContent}</p>
-                <p><strong>Message:</strong> ${message}</p>
+               
             `,
         };
 
