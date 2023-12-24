@@ -18,6 +18,12 @@ app.get('/', (req, res) => {
 app.get("/about", (req, res) => {
 	res.sendFile(__dirname + "/public/about.html");
 });
+app.get("/robots.txt", (req, res) => {
+	res.sendFile(__dirname + "/public/robots.txt");
+});
+app.get("/sitemap.xml", (req, res) => {
+	res.sendFile(__dirname + "/public/sitemap.xml");
+});
 app.get("/contact", (req, res) => {
 	res.sendFile(__dirname + "/public/contact.html");
 });
