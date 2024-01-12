@@ -241,6 +241,7 @@ input, textarea{
     0%{opacity: 0;}
     100%{transform:translateY(0); opacity: 1;}
 }
+
 #subform #spcon{
     grid-column: 2/3;
     display: flex;

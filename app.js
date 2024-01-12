@@ -59,7 +59,7 @@ app.use(express.urlencoded({ extended: true }));
 const transporter = nodemailer.createTransport({
     host: 'mail.fiscocompanies.com',
     auth: {
-        user: 'quotation@fiscocompanies.com',
+        user: 'enquiry@fiscocompanies.com',
         pass: 'Abayomiusman1.',
     },
     port: 465,
@@ -104,8 +104,8 @@ console.log(fileContent);
      
         // Configure email content
         const mailOptions = {
-            from: 'quotation@fiscocompanies.com',
-            to: 'quotation@fiscocompanies.com',
+            from: 'enquiry@fiscocompanies.com',
+            to: 'enquiry@fiscocompanies.com',
             subject: 'Form Submission',
             html: `
                 <p><strong>Name:</strong> ${fullname}</p>
@@ -136,8 +136,8 @@ app.post('/submit-contact-form', upload.any(),async (req, res) => {
 
         // Configure email content
         const mailOptions = {
-            from: 'quotation@fiscocompanies.com',
-            to: 'quotation@fiscocompanies.com',
+            from: 'enquiry@fiscocompanies.com',
+            to: 'enquiry@fiscocompanies.com',
             subject: `New Contact Form Submission - ${subject}`,
             html: `
                 <p><strong>Name:</strong> ${name}</p>

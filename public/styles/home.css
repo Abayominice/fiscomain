@@ -92,7 +92,7 @@ body {
     display:grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 10%;
-    margin-left: -9%;
+    margin-left: -5%;
 }
 .r2 .r2r1c5{
     grid-column: 5/6;
@@ -113,6 +113,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .logiconsresize .logicresize{
     max-width: 100%;
     box-sizing: border-box;
@@ -123,8 +124,8 @@ body {
     margin-top: 50px;
     padding-left: 3%;
     padding-right: 8%;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 45px;
     min-width: 10%;
     display:flex;
     justify-content: center;
@@ -134,8 +135,7 @@ body {
     grid-column: 1/2;
     padding-top: 46px;
     padding-left: 3%;
-    
-    width: 50px;
+    width: 40px;
     height: 100px;
     min-width: 10%;
     display:flex;
@@ -151,8 +151,8 @@ body {
     display:flex;
     width: 200%;
     height: 30%;
-    margin-top: 27%;
-    
+    margin-top: 29%;
+    margin-left: -7%;
     justify-content: center;
     flex-direction: column;
     color:black;
@@ -167,6 +167,10 @@ body {
     margin-top: 5px;
 }
 .twotog{
+    margin-top: 43px;
+    margin-left: -34%;
+}
+.twotogg{
     margin-top: 45px;
     margin-left: -35%;
 }
@@ -750,7 +754,7 @@ section{
 
 .servimght h2,
 .servimght ul {
-    color: rgb(123,123,123);
+    color: white;
     margin: 0;
     padding: 0;
 }
