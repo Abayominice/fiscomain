@@ -1091,9 +1091,9 @@ section{
 }
 .raqsect-header-background{
     position: absolute;
-    top: -60px;
+    top: -45px;
     left: 0;
-    font-size: 70px;
+    font-size: 50px;
     width:100%;
     color:rgba(210, 210, 210, 0.1);
     margin-left: 30px;
@@ -3882,7 +3882,7 @@ section{
     position: absolute;
     top: -34px;
     left: 0;
-    font-size: 48px;
+    font-size: 30px;
     width:100%;
     color:rgba(210, 210, 210, 0.1);
     margin-left: 30px;
@@ -3893,6 +3893,7 @@ section{
     align-items: flex-start;
     margin-bottom: 2.4%;
   }
+
   .ssd {
     margin-bottom: 2.4%;
   }
