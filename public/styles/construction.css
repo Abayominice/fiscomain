@@ -23,7 +23,7 @@
 .imggal{
     padding: 3% 4% 18% 4%;
     background-color: gainsboro;
-    color: red;
+    color: black;
 }
 .imggal h4{
     margin-top: -0.4%;
@@ -57,7 +57,7 @@
     .imggal{
         padding: 3% 4% 48% 4%;
         background-color: gainsboro;
-        color: red;
+        color: black;
     }
     .imggal h4{
         margin-top: -35%;
