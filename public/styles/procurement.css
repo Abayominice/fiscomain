@@ -1,10 +1,101 @@
+.imgresize{
+    width: 100%;
+    height: 80%;
+}
+.mres{
+    max-width: 100%;
+    max-height: 100%;
+}
+.pwr{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    column-gap: 1%;
+    row-gap: 2%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin: 0% 5% 5% 7%;
+    background-color: white;
+}
+.imggal{
+    padding: 3% 4% 18% 4%;
+    background-color: gainsboro;
+    color: red;
+}
+.imggal h4{
+    margin-top: -0.4%;
+}
+
+
+
+
+
+@media (max-width: 470px) {
+    .pwr{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: auto;
+        column-gap: 1%;
+        row-gap: 2%;
+        padding-top: 2%;
+        padding-right: 50%;
+        padding-bottom: 2%;
+        margin: 0% 5% 5% 7%;
+        background-color: white;
+    }
+    .imgresize{
+        width: 100%;
+        height: 80%;
+    }
+    .mres{
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .imggal{
+        padding: 3% 4% 48% 4%;
+        background-color: gainsboro;
+        color: red;
+    }
+    .imggal h4{
+        margin-top: -35%;
+        font-size: 0.9rem;
+    }
+}
+
+
+
+
+
+
 @media (max-width: 700px) {
     .single-project{
         margin-top: 55px;
+    }
+    .pwr{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        column-gap: 1%;
+        row-gap: 2%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        margin-bottom: 5%;
+        background-color: white;
     }
 }
 @media (min-width:700px) and (max-width: 1200px) {
     .single-project{
         margin-top: 120px;
+    }
+    .pwr{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        column-gap: 1%;
+        row-gap: 2%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        margin-bottom: 5%;
+        background-color: white;
     }
 }
