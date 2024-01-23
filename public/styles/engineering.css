@@ -18,7 +18,7 @@
     background-color: white;
 }
 .imggal{
-    padding: 3% 4% 18% 4%;
+    padding: 3% 0% 1% 4%;
     background-color: gainsboro;
     color: black;
 }
@@ -38,7 +38,7 @@
         column-gap: 1%;
         row-gap: 2%;
         padding-top: 2%;
-        padding-right: 50%;
+        padding-right: 0%;
         padding-bottom: 2%;
         margin: 0% 5% 100% 7%;
         background-color: white;
@@ -52,7 +52,7 @@
         max-height: 100%;
     }
     .imggal{
-        padding: 3% 4% 48% 4%;
+        padding: 3% 4% 4% 4%;
         background-color: gainsboro;
         color: black;
     }
@@ -68,7 +68,7 @@
     }
     .pwr{
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         grid-template-rows: auto;
         column-gap: 1%;
         row-gap: 2%;
@@ -84,7 +84,7 @@
     }
     .pwr{
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
         column-gap: 1%;
         row-gap: 2%;
