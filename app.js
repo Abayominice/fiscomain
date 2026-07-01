@@ -1,194 +1,216 @@
-const express = require('express');
-const cors = require("cors");
+const express = require("express");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const multer = require("multer");
+const nodemailer = require("nodemailer");
+const pdfParse = require("pdf-parse");
+const mammoth = require("mammoth");
+const path = require("path");
+
 const app = express();
-const multer = require('multer'); // For handling file uploads
-const nodemailer = require('nodemailer'); // For sending emails
-const pdfParse = require('pdf-parse');
-const mammoth = require('mammoth');
+const port = Number(process.env.PORT || 3000);
+const publicDir = path.join(__dirname, "public");
+const maxUploadBytes = 10 * 1024 * 1024;
+const allowedUploadTypes = new Set([
+  "application/pdf",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]);
 
-const port = 3000;
-app.use(express.static("public"));
-app.use(express.json());
-app.use(cors());
+app.disable("x-powered-by");
+app.set("trust proxy", 1);
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
+app.use(express.static(publicDir));
+app.use(express.json({ limit: "100kb" }));
+app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
-
-app.get('/', (req, res) => {
-	res.sendFile(__dirname + "/public/index.html");
-});
-app.get("/about", (req, res) => {
-	res.sendFile(__dirname + "/public/about.html");
-});
-app.get("/robots.txt", (req, res) => {
-	res.sendFile(__dirname + "/public/robots.txt");
-});
-app.get("/sitemap.xml", (req, res) => {
-	res.sendFile(__dirname + "/public/sitemap.xml");
-});
-app.get("/contact", (req, res) => {
-	res.sendFile(__dirname + "/public/contact.html");
-});
-app.get("/policies", (req, res) => {
-	res.sendFile(__dirname + "/public/policies.html");
-});
-app.get("/projects", (req, res) => {
-	res.sendFile(__dirname + "/public/projects.html");
-});
-app.get("/construction", (req, res) => {
-	res.sendFile(__dirname + "/public/projects/construction.html");
-});
-app.get("/engineering", (req, res) => {
-	res.sendFile(__dirname + "/public/projects/engineering.html");
-});
-app.get("/procurement", (req, res) => {
-	res.sendFile(__dirname + "/public/projects/procurement.html");
-});
-app.get("/projectmgt", (req, res) => {
-	res.sendFile(__dirname + "/public/projects/projectmgt.html");
+const generalPostLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many requests. Please try again later." },
 });
 
+const subscribeLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many subscription attempts. Please try again later." },
+});
 
-
-
-// Middleware to handle form data
-const storage = multer.memoryStorage(); // Store files in memory as buffers
-const upload = multer({ storage: storage, limits: { fileSize: 50 * 1024 * 1024 }, }); // Use the defined storage
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: maxUploadBytes,
+    files: 2,
+  },
+  fileFilter: (req, file, cb) => {
+    if (!allowedUploadTypes.has(file.mimetype)) {
+      cb(new Error("Unsupported file type"));
+      return;
+    }
+    cb(null, true);
+  },
+});
 
 const transporter = nodemailer.createTransport({
-    host: 'mail.fiscocompanies.com',
-    auth: {
-        user: 'enquiry@fiscocompanies.com',
-        pass: 'Abayomiusman1.',
-    },
-    port: 465,
-    secure: true,
-    debug: true,
+  host: "mail.fiscocompanies.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: "enquiry@fiscocompanies.com",
+    pass: "Abayomiusman1.",
+  },
 });
 
-// Your endpoint to handle the form
-app.post('/submit-form', upload.array('file', 2), async (req, res) => {
-    try {
-        // Extract data from the form
-        const { fullname, phone, email, service, message } = req.body;
-        const filesArr = req.files;
-
-        // Read content from the uploaded file
-        let fileContent = '';
-        let i = 1
-for (const file of filesArr) {
-  
-
-        if (file && (file.mimetype === 'application/pdf' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
-            // Handle PDF and Word
-            if (file.mimetype === 'application/pdf') {
-                const pdfData = await pdfParse(file.buffer);
-            
-                fileContent += `<strong><p><h1>FILE ${i}</strong></p></h1>` + pdfData.text + ":";
-            } else if (file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-             
-                const wordData = await mammoth.convertToHtml ({ buffer: file.buffer });
-       
-                fileContent += `<strong><p><h1>FILE ${i}</strong></p></h1>` +  wordData.value + ":"; 
-
-            }
-        } else {
-            // Handle other file types if needed
-            fileContent += 'Unsupported file type';
-        }
-        i += 1
+function sendPage(res, filePath) {
+  res.sendFile(path.join(publicDir, filePath));
 }
-console.log(fileContent);
-        // Configure Nodemailer for sending emails
-     
-        // Configure email content
-        const mailOptions = {
-            from: 'enquiry@fiscocompanies.com',
-            to: 'enquiry@fiscocompanies.com',
-            subject: 'Form Submission',
-            html: `
-                <p><strong>Name:</strong> ${fullname}</p>
-                <p><strong>Phone Number:</strong> ${phone}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Service Description:</strong> ${service}</p>
-                 <p><strong>Message:</strong> ${message}</p>
-                <p><strong>File Content:</strong> ${fileContent}</p>
-               
-            `,
-        };
 
-        // Send email
-        await transporter.sendMail(mailOptions);
-
-        // Respond to the client
-        res.status(200).json({ message: 'Form submitted successfully!' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
-app.post('/submit-contact-form', upload.any(),async (req, res) => {
-    try {
-        // Extract data from the form
-        const { name, email, subject, message } = req.body;
-
-        // Configure email content
-        const mailOptions = {
-            from: 'enquiry@fiscocompanies.com',
-            to: 'enquiry@fiscocompanies.com',
-            subject: `New Contact Form Submission - ${subject}`,
-            html: `
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Subject:</strong> ${subject}</p>
-                <p><strong>Message:</strong> ${message}</p>
-            `,
-        };
-
-        // Send email
-        await transporter.sendMail(mailOptions);
-
-        // Respond to the client
-        res.status(200).json({ message: 'Form submitted successfully!' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
 function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function requireText(value, maxLength) {
+  return typeof value === "string" && value.trim().length > 0 && value.length <= maxLength;
+}
+
+async function buildFileSummary(files) {
+  let fileContent = "";
+
+  for (const [index, file] of files.entries()) {
+    if (file.mimetype === "application/pdf") {
+      const pdfData = await pdfParse(file.buffer);
+      fileContent += `<strong><p><h1>FILE ${index + 1}</h1></p></strong>${pdfData.text}:`;
+      continue;
+    }
+
+    if (file.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      const wordData = await mammoth.extractRawText({ buffer: file.buffer });
+      fileContent += `<strong><p><h1>FILE ${index + 1}</h1></p></strong>${wordData.value}:`;
+    }
   }
-const MAILCHIMP_API_KEY = "d3cda6fc92e51b731212add030844019-us21";
-const MAILCHIMP_LIST_ID = "45f3c6b592";
-  
-app.post("/subscribe", async (req, res) => {
-  const email = req.body.email;
+
+  return fileContent;
+}
+
+app.get("/", (req, res) => sendPage(res, "index.html"));
+app.get("/about", (req, res) => sendPage(res, "about.html"));
+app.get("/robots.txt", (req, res) => sendPage(res, "robots.txt"));
+app.get("/sitemap.xml", (req, res) => sendPage(res, "sitemap.xml"));
+app.get("/contact", (req, res) => sendPage(res, "contact.html"));
+app.get("/policies", (req, res) => sendPage(res, "policies.html"));
+app.get("/projects", (req, res) => sendPage(res, "projects.html"));
+app.get("/construction", (req, res) => sendPage(res, "projects/construction.html"));
+app.get("/engineering", (req, res) => sendPage(res, "projects/engineering.html"));
+app.get("/procurement", (req, res) => sendPage(res, "projects/procurement.html"));
+app.get("/projectmgt", (req, res) => sendPage(res, "projects/projectmgt.html"));
+
+app.post("/submit-form", generalPostLimiter, upload.array("file", 2), async (req, res) => {
+  try {
+    const { fullname, phone, email, service, message } = req.body;
+    const files = req.files || [];
+
+    if (
+      !requireText(fullname, 120) ||
+      !requireText(phone, 40) ||
+      !validateEmail(email) ||
+      !requireText(service, 200) ||
+      !requireText(message, 5000)
+    ) {
+      res.status(400).json({ error: "Invalid form submission." });
+      return;
+    }
+
+    const fileContent = await buildFileSummary(files);
+    await transporter.sendMail({
+      from: "enquiry@fiscocompanies.com",
+      to: "enquiry@fiscocompanies.com",
+      subject: "Form Submission",
+      html: `
+        <p><strong>Name:</strong> ${fullname}</p>
+        <p><strong>Phone Number:</strong> ${phone}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Service Description:</strong> ${service}</p>
+        <p><strong>Message:</strong> ${message}</p>
+        <p><strong>File Content:</strong> ${fileContent}</p>
+      `,
+    });
+
+    res.status(200).json({ message: "Form submitted successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/submit-contact-form", generalPostLimiter, async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body;
+
+    if (
+      !requireText(name, 120) ||
+      !validateEmail(email) ||
+      !requireText(subject, 200) ||
+      !requireText(message, 5000)
+    ) {
+      res.status(400).json({ error: "Invalid contact form submission." });
+      return;
+    }
+
+    await transporter.sendMail({
+      from: "enquiry@fiscocompanies.com",
+      to: "enquiry@fiscocompanies.com",
+      subject: `New Contact Form Submission - ${subject}`,
+      html: `
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      `,
+    });
+
+    res.status(200).json({ message: "Form submitted successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+const mailchimpApiKey = "d3cda6fc92e51b731212add030844019-us21";
+const mailchimpListId = "45f3c6b592";
+const mailchimpServerPrefix = "us21";
+
+app.post("/subscribe", subscribeLimiter, async (req, res) => {
+  const { email } = req.body;
 
   if (!validateEmail(email)) {
-    return res.status(401).json({ message: "Email not set" });
+    res.status(400).json({ message: "Email not set" });
+    return;
   }
-
-  const data = {
-    email_address: email,
-    status: "subscribed",
-    tags: ["Fans"],
-  };
 
   try {
     const response = await fetch(
-      `https://us21.api.mailchimp.com/3.0/lists/${MAILCHIMP_LIST_ID}/members`,
+      `https://${mailchimpServerPrefix}.api.mailchimp.com/3.0/lists/${mailchimpListId}/members`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Basic ${Buffer.from(
-            `apikey:${MAILCHIMP_API_KEY}`
-          ).toString("base64")}`,
+          Authorization: `Basic ${Buffer.from(`apikey:${mailchimpApiKey}`).toString("base64")}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          email_address: email,
+          status: "subscribed",
+          tags: ["Fans"],
+        }),
       }
     );
 
@@ -196,19 +218,33 @@ app.post("/subscribe", async (req, res) => {
 
     if (response.ok) {
       res.json({ success: true, message: "Subscription successful!" });
-    } else {
-      res.json({
-        success: false,
-        message: responseData.title || "Subscription failed.",
-      });
+      return;
     }
+
+    res.json({
+      success: false,
+      message: responseData.title || "Subscription failed.",
+    });
   } catch (error) {
     console.error("Error subscribing:", error);
-    res.status(401).json({ success: false, message: "An error occurred." });
+    res.status(500).json({ success: false, message: "An error occurred." });
   }
 });
 
-app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`)
+app.use((error, req, res, next) => {
+  if (error instanceof multer.MulterError) {
+    res.status(400).json({ error: error.message });
+    return;
+  }
+
+  if (error && error.message === "Unsupported file type") {
+    res.status(400).json({ error: error.message });
+    return;
+  }
+
+  next(error);
 });
 
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
