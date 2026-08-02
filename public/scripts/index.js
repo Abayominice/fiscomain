@@ -120,6 +120,7 @@ function validateFileInput() {
 const submitBtn = document.querySelector('.quote-button');
 const contactForm = document.querySelector('.contact-form');
 
+if (contactForm && submitBtn) {
 contactForm.addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -150,10 +151,12 @@ contactForm.addEventListener('submit', function (event) {
         submitBtn.textContent = 'Error, kindly try again, later.';
     });
 });
+}
 
 const emailSubBtn = document.querySelector('.emailSubBtn');
 const flashShow = document.querySelector('.flash-show');
 
+if (emailSubBtn) {
 emailSubBtn.addEventListener('click', async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -192,3 +195,27 @@ emailSubBtn.addEventListener('click', async (event) => {
         flashShow.style.display = 'block';
     }
 }, true);
+}
+
+// Services section tab switching
+const servTabs = document.querySelectorAll('.servtab');
+const servPanels = document.querySelectorAll('.servpanel');
+
+if (servTabs.length && servPanels.length) {
+    servTabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            const target = tab.getAttribute('data-tab');
+
+            servTabs.forEach(function (t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+
+            servPanels.forEach(function (panel) {
+                if (panel.getAttribute('data-panel') === target) {
+                    panel.classList.add('active');
+                } else {
+                    panel.classList.remove('active');
+                }
+            });
+        });
+    });
+}

@@ -1,71 +1,112 @@
 .single-project{
     margin-top: 120px;
+    padding: 60px 6% 90px 6%;
+    background-color: rgb(247, 249, 253);
+    position: relative;
 }
-.imgresize{
-    width: 100%;
-    height: 80%;
+.single-project::before{
+    content: "CONSTRUCTION & INSTALLATION PROJECTS";
+    display: block;
+    color: rgb(14, 2, 65);
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
 }
-.mres{
-    max-width: 100%;
-    max-height: 100%;
+.single-project::after{
+    content: "";
+    display: block;
+    width: 70px;
+    height: 5px;
+    background-color: rgb(220, 20, 20);
+    border-radius: 3px;
+    margin-bottom: 36px;
+}
+.single-project h3.mt-5{
+    background-color: rgb(14, 2, 65);
+    background: linear-gradient(120deg, rgb(14, 2, 65), rgb(30, 12, 110));
+    color: white !important;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    padding: 18px 24px !important;
+    border-left: 6px solid rgb(220, 20, 20);
+    border-radius: 10px;
+    margin: 0 0 24px 0 !important;
+    box-shadow: 0 10px 24px rgba(14, 2, 65, 0.15);
 }
 .pwr{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
-    column-gap: 1%;
-    row-gap: 2%;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    margin: 0% 5% 10% 7%;
-    background-color: white;
-    
+    gap: 22px;
+    padding: 0;
+    margin: 0 0 60px 0;
+    background-color: transparent;
 }
 .imggal{
-    padding: 3% 4% 18% 4%;
-    background-color: gainsboro;
-    color: black;
+    padding: 0;
+    background-color: white;
+    color: rgb(14, 2, 65);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(14, 2, 65, 0.08);
+    box-shadow: 0 8px 20px rgba(14, 2, 65, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.imggal:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 16px 32px rgba(14, 2, 65, 0.18);
 }
 .imggal h4{
     margin-top: 5%;
+    padding: 0 14px 14px 14px;
+}
+.imgresize{
+    width: 100%;
+    height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(247, 249, 253);
+    overflow: hidden;
+}
+.mres{
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 
-
-
-
 @media (max-width: 470px) {
+    .single-project{
+        padding: 40px 5% 70px 5%;
+    }
+    .single-project::before{
+        font-size: 1.2rem;
+    }
     .pwr{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
-        column-gap: 1%;
-        row-gap: 20%;
-        padding-top: 20%;
-        padding-right: 0%;
-        padding-bottom: 2%;
-        margin: 0% 5% 40% 7%;
-        background-color: white;
-        max-height: 600px; /* Set your desired maximum height */
-    overflow-y: auto;  /* Enable vertical scrolling when content overflows */
+        gap: 14px;
+        margin: 0 0 34px 0;
     }
     .imgresize{
         width: 100%;
-        height: 80%;
-    }
-    .mres{
-        max-width: 100%;
-        max-height: 100%;
-    }
-    .imggal{
-        padding: 3% 4% 5% 4%;
-        margin-bottom: 1%;
-        background-color: gainsboro;
-        color: black;
+        height: 130px;
     }
     .imggal h4{
         margin-top: 3%;
-        font-size: 1.5rem;
+        font-size: 0.95rem;
+        padding: 0 10px 10px 10px;
+    }
+    .single-project h3.mt-5{
+        font-size: 0.95rem;
+        padding: 14px 16px !important;
     }
 }
 
@@ -73,33 +114,29 @@
 @media (max-width: 700px) {
     .single-project{
         margin-top: 55px;
+        padding: 34px 5% 60px 5%;
     }
     .pwr{
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         grid-template-rows: auto;
-        column-gap: 1%;
-        row-gap: 2%;
-        padding-top: 2%;
-        padding-bottom: 2%;
-        margin-bottom: 40%;
-        background-color: white;
-        max-height: 600px; /* Set your desired maximum height */
-    overflow-y: auto;  /* Enable vertical scrolling when content overflows */
+        gap: 16px;
+        margin: 0 0 40px 0;
+    }
+    .imgresize{
+        height: 200px;
     }
 }
 @media (min-width:700px) and (max-width: 1200px) {
+    .single-project{
+        margin-top: 120px;
+        padding: 50px 5% 80px 5%;
+    }
     .pwr{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
-        column-gap: 1%;
-        row-gap: 2%;
-        padding-top: 2%;
-        padding-bottom: 2%;
-        margin-bottom: 10%;
-        background-color: white;
-        max-height: 600px; /* Set your desired maximum height */
-    overflow-y: auto;  /* Enable vertical scrolling when content overflows */
+        gap: 18px;
+        margin: 0 0 46px 0;
     }
 }
