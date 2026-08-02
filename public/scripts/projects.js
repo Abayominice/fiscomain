@@ -79,6 +79,7 @@ function removeFadeUpHide(el){
 const submitBtn = document.querySelector('.quote-button');
 const contactForm = document.querySelector('.contact-form');
 
+if (contactForm && submitBtn) {
 contactForm.addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -109,3 +110,4 @@ contactForm.addEventListener('submit', function (event) {
         submitBtn.textContent = 'Error, kindly try again, later.';
     });
 });
+}
