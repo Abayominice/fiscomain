@@ -4,6 +4,7 @@
     
     text-decoration: none;
 }
+
 html{
     margin: 0;
 }
@@ -4430,4 +4431,114 @@ footer{
     
 }
 /*footer ends here*/
+}
+
+/* Keep the tablet header within the viewport instead of letting fixed grid cells overlap. */
+@media (min-width: 700px) and (max-width: 1200px) {
+    .r2 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: clamp(8px, 2vw, 20px);
+        width: 100%;
+        max-width: 760px;
+        box-sizing: border-box;
+        padding: clamp(18px, 3vw, 30px) clamp(12px, 3vw, 28px) clamp(28px, 4vw, 44px);
+        margin: 0 auto 3.5%;
+        align-items: center;
+    }
+
+    .r2 .r2r1c1,
+    .r2 .r2r1c2 {
+        display: none;
+    }
+
+    .r2 .r2r1c3,
+    .r2 .r2r1c4,
+    .r2 .r2r1c5 {
+        grid-column: auto;
+        display: flex;
+        align-items: center;
+        gap: clamp(6px, 1.2vw, 12px);
+        min-width: 0;
+        margin: 0;
+    }
+
+    .r2 .r2r1c4 {
+        grid-gap: 0;
+    }
+
+    .meniconsresize > img,
+    .maiconsresize > img {
+        flex: 0 0 auto;
+        width: clamp(30px, 4vw, 38px);
+        height: clamp(30px, 4vw, 38px);
+        margin: 0;
+        padding: 0;
+    }
+
+    .r2 .emcnm,
+    .r2 .twotog,
+    .r2 .twotogg {
+        display: flex;
+        grid-column: auto;
+        width: auto;
+        min-width: 0;
+        height: auto;
+        margin: 0;
+        transform: none;
+        align-items: flex-start;
+    }
+
+    .r2 .emcnm > h3,
+    .r2 .emcnm > h4 {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .r2 .emcnm > h3 {
+        font-size: clamp(0.7rem, 1.6vw, 1rem);
+    }
+
+    .r2 .emcnm > h4 {
+        font-size: clamp(0.58rem, 1.2vw, 0.8rem);
+    }
+
+    #myheader2 {
+        box-sizing: border-box;
+        width: min(76%, 720px);
+        min-width: 0;
+        padding: 10px clamp(16px, 4vw, 60px);
+    }
+
+    #myheader2 #menucontent2 {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto 70px;
+        align-items: center;
+    }
+
+    .men2logo,
+    #menus2 {
+        min-width: 0;
+    }
+
+    .menlogiconsresize > img {
+        width: clamp(120px, 20vw, 170px);
+        max-width: 100%;
+        height: auto;
+        margin: -45px 0 0 -10%;
+    }
+
+    #spcon2 {
+        width: auto;
+        min-width: 88px;
+        box-sizing: border-box;
+    }
+
+    .icir2 {
+        width: 70px;
+        height: 40px;
+        box-sizing: border-box;
+        padding: 8px 0;
+    }
 }
