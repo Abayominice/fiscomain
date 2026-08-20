@@ -374,7 +374,7 @@ input, textarea{
 }
 
 @media (min-width:700px) and (max-width: 1200px) {
-    section{
+    .single-project{
         margin-top: -600px;
     }
     .simg img{
